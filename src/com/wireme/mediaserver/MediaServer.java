@@ -27,7 +27,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
-public class MediaServer extends Thread {
+public class MediaServer {
 
 	private UDN udn = UDN.uniqueSystemIdentifier("GNaP-MediaServer");
 	private LocalDevice localDevice;
@@ -60,6 +60,18 @@ public class MediaServer extends Thread {
 		Log.v(LOGTAG, "manufacturer: "
 				+ details.getManufacturerDetails().getManufacturer());
 		Log.v(LOGTAG, "model: " + details.getModelDetails().getModelName());
+		
+		//start http server
+		try {
+			new HttpServer(port);
+		}
+		catch (IOException ioe )
+		{
+			System.err.println( "Couldn't start server:\n" + ioe );
+			System.exit( -1 );
+		}
+		
+		Log.v(LOGTAG, "Started Http Server on port " + port);
 	}
 
 	public LocalDevice getDevice() {
@@ -69,33 +81,4 @@ public class MediaServer extends Thread {
 	public String getAddress() {
 		return localAddress.getHostAddress() + ":" + port;
 	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		if (localAddress == null) {
-			Log.w(LOGTAG, "no network address avalibe to listen");
-			return;
-		}
-		ServerSocket Server;
-		try {
-
-			Server = new ServerSocket(port, 10, localAddress);
-
-			System.out.println("TCPServer Waiting for client on "
-					+ localAddress.getHostAddress() + ": " + port);
-
-			while (true) {
-				Socket connected = Server.accept();
-				(new HttpServer(connected)).start();
-			}
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 }

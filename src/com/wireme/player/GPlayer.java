@@ -102,15 +102,15 @@ public class GPlayer extends Activity implements OnCompletionListener,
 		}
 	}
 
-//	@Override
-//	public boolean onTouchEvent(MotionEvent ev) {
-//		if (mediaController.isShowing()) {
-//			mediaController.hide();
-//		} else {
-//			mediaController.show();
-//		}
-//		return false;
-//	}
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		if (mediaController.isShowing()) {
+			mediaController.hide();
+		} else {
+			mediaController.show(10000);
+		}
+		return false;
+	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -187,7 +187,7 @@ public class GPlayer extends Activity implements OnCompletionListener,
 		mediaController.setAnchorView(this
 				.findViewById(R.id.gplayer_surfaceview));
 		mediaController.setEnabled(true);
-		mediaController.show();
+		mediaController.show(10000);
 	}
 
 	@Override

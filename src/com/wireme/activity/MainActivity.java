@@ -83,7 +83,6 @@ public class MainActivity extends Activity {
 			if (mediaServer == null) {
 				try {
 					mediaServer = new MediaServer(getLocalIpAddress());
-					mediaServer.start();
 					upnpService.getRegistry()
 							.addDevice(mediaServer.getDevice());
 					prepareMediaServer();
