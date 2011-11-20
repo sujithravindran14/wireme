@@ -87,7 +87,7 @@ public class HttpServer
 		}
 		
 		if (newUri != null) uri = newUri;
-		return serveFile( uri, header, myRootDir, true );
+		return serveFile( uri, header, myRootDir, false );
 	}
 
 	/**

@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
 
 	private static boolean serverPrepared = false;
 
-	private final static String LOGTAG = "GNaP";
+	private final static String LOGTAG = "WireMe";
 
 	private ServiceConnection serviceConnection = new ServiceConnection() {
 
