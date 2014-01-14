@@ -391,7 +391,7 @@ public class MainActivity extends Activity {
 				MediaStore.Video.Media.MIME_TYPE, MediaStore.Video.Media.SIZE,
 				MediaStore.Video.Media.DURATION,
 				MediaStore.Video.Media.RESOLUTION };
-		cursor = managedQuery(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+		cursor = getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
 				videoColumns, null, null, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -453,7 +453,7 @@ public class MainActivity extends Activity {
 				MediaStore.Audio.Media.ARTIST,
 				MediaStore.Audio.Media.MIME_TYPE, MediaStore.Audio.Media.SIZE,
 				MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.ALBUM };
-		cursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+		cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
 				audioColumns, null, null, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -514,7 +514,7 @@ public class MainActivity extends Activity {
 		String[] imageColumns = { MediaStore.Images.Media._ID,
 				MediaStore.Images.Media.TITLE, MediaStore.Images.Media.DATA,
 				MediaStore.Images.Media.MIME_TYPE, MediaStore.Images.Media.SIZE };
-		cursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+		cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
 				imageColumns, null, null, null);
 		if (cursor.moveToFirst()) {
 			do {
