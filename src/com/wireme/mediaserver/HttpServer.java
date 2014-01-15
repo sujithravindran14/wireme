@@ -979,6 +979,9 @@ public class HttpServer
 			"pdf		application/pdf "+
 			"doc		application/msword "+
 			"ogg		application/x-ogg "+
+			"avi		video/mpeg "+
+			"mp4		video/mp4 "+
+			"mpg		video/mpeg "+
 			"zip		application/octet-stream "+
 			"exe		application/octet-stream "+
 			"class		application/octet-stream " );

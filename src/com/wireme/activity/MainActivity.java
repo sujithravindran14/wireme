@@ -17,6 +17,7 @@ import org.teleal.cling.support.contentdirectory.ui.ContentBrowseActionCallback;
 import org.teleal.cling.support.model.DIDLObject;
 import org.teleal.cling.support.model.PersonWithRole;
 import org.teleal.cling.support.model.Res;
+import org.teleal.cling.support.model.item.Item;
 import org.teleal.cling.support.model.WriteStatus;
 import org.teleal.cling.support.model.container.Container;
 import org.teleal.cling.support.model.item.ImageItem;
@@ -48,6 +49,7 @@ import android.widget.Toast;
 
 import com.wireme.R;
 import com.wireme.player.GPlayer;
+import com.wireme.player.ImageViewer;
 import com.wireme.mediaserver.ContentNode;
 import com.wireme.mediaserver.ContentTree;
 import com.wireme.mediaserver.MediaServer;
@@ -269,10 +271,22 @@ public class MainActivity extends Activity {
 								content.getService(), content.getContainer(),
 								contentListAdapter));
 			} else {
+				Item item = content.getItem();
+				if (item == null) {
+					log.log(Level.SEVERE, "item is null");
+					return;
+				}
+
 				Intent intent = new Intent();
-				intent.setClass(MainActivity.this, GPlayer.class);
-				intent.putExtra("playURI", content.getItem().getFirstResource()
-						.getValue());
+				intent.putExtra("playURI", content.getItem().getFirstResource().getValue());
+				if (item.toString().startsWith("org.teleal.cling.support.model.item.Photo")) {
+					intent.setClass(MainActivity.this, ImageViewer.class);
+				} else if (item.toString().startsWith("org.teleal.cling.support.model.item.MusicTrack")) {
+					// TODO : replace GPlayer of new one.
+					intent.setClass(MainActivity.this, GPlayer.class);
+				} else if (item.toString().startsWith("org.teleal.cling.support.model.item.VideoItem")) {
+					intent.setClass(MainActivity.this, GPlayer.class);
+				}
 				startActivity(intent);
 			}
 		}
@@ -391,7 +405,7 @@ public class MainActivity extends Activity {
 				MediaStore.Video.Media.MIME_TYPE, MediaStore.Video.Media.SIZE,
 				MediaStore.Video.Media.DURATION,
 				MediaStore.Video.Media.RESOLUTION };
-		cursor = managedQuery(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+		cursor = getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
 				videoColumns, null, null, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -453,7 +467,7 @@ public class MainActivity extends Activity {
 				MediaStore.Audio.Media.ARTIST,
 				MediaStore.Audio.Media.MIME_TYPE, MediaStore.Audio.Media.SIZE,
 				MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.ALBUM };
-		cursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+		cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
 				audioColumns, null, null, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -514,7 +528,7 @@ public class MainActivity extends Activity {
 		String[] imageColumns = { MediaStore.Images.Media._ID,
 				MediaStore.Images.Media.TITLE, MediaStore.Images.Media.DATA,
 				MediaStore.Images.Media.MIME_TYPE, MediaStore.Images.Media.SIZE };
-		cursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+		cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
 				imageColumns, null, null, null);
 		if (cursor.moveToFirst()) {
 			do {

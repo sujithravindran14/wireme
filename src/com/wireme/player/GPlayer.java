@@ -2,8 +2,6 @@ package com.wireme.player;
 
 import java.io.IOException;
 
-import javax.crypto.NullCipher;
-
 import com.wireme.R;
 
 import android.app.Activity;
@@ -16,8 +14,8 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -29,8 +27,8 @@ public class GPlayer extends Activity implements OnCompletionListener,
 		OnSeekCompleteListener, OnVideoSizeChangedListener,
 		SurfaceHolder.Callback, MediaController.MediaPlayerControl {
 
-	Display currentDisplay;
 	SurfaceView surfaceView;
+	DisplayMetrics metrics;
 	SurfaceHolder surfaceHolder;
 
 	MediaPlayer mediaPlayer;
@@ -52,7 +50,6 @@ public class GPlayer extends Activity implements OnCompletionListener,
 		surfaceView = (SurfaceView) findViewById(R.id.gplayer_surfaceview);
 		surfaceHolder = surfaceView.getHolder();
 		surfaceHolder.addCallback(this);
-		surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
 		mediaPlayer = new MediaPlayer();
 
@@ -79,7 +76,8 @@ public class GPlayer extends Activity implements OnCompletionListener,
 			Log.v(LOGTAG, e.getMessage());
 			finish();
 		}
-		currentDisplay = getWindowManager().getDefaultDisplay();
+		metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 	}
 
 	@Override
@@ -159,12 +157,12 @@ public class GPlayer extends Activity implements OnCompletionListener,
 		Log.v(LOGTAG, "onPrepared Called");
 		videoWidth = mp.getVideoWidth();
 		videoHeight = mp.getVideoHeight();
-		if (videoWidth > currentDisplay.getWidth()
-				|| videoHeight > currentDisplay.getHeight()) {
+		if (videoWidth > metrics.widthPixels
+				|| videoHeight > metrics.heightPixels) {
 			float heightRatio = (float) videoHeight
-					/ (float) currentDisplay.getHeight();
+					/ (float) metrics.heightPixels;
 			float widthRatio = (float) videoWidth
-					/ (float) currentDisplay.getWidth();
+					/ (float) metrics.widthPixels;
 			if (heightRatio > 1 || widthRatio > 1) {
 				if (heightRatio > widthRatio) {
 					videoHeight = (int) Math.ceil((float) videoHeight
@@ -287,4 +285,5 @@ public class GPlayer extends Activity implements OnCompletionListener,
 		// TODO Auto-generated method stub
 		mediaPlayer.start();
 	}
+
 }
