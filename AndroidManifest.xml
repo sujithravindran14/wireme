@@ -7,12 +7,14 @@
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 	<application android:icon="@drawable/icon"
 		android:label="@string/app_name"
+		android:name="com.wireme.activity.WireMeApplication"
 		android:debuggable="true">
 		
-		<activity android:name=".activity.MainActivity"
+		<activity android:name="com.wireme.activity.MainActivity"
 			android:label="@string/app_name"
 			android:theme="@android:style/Theme.NoTitleBar"
 			android:configChanges="orientation|keyboardHidden">
@@ -24,9 +26,14 @@
 			
 		</activity>
 
-		<activity android:name=".player.GPlayer"
+		<activity android:name="com.wireme.player.GPlayer"
 			android:theme="@android:style/Theme.NoTitleBar"
 			android:configChanges="orientation|keyboardHidden">
+		</activity>
+		<activity
+			android:name="com.wireme.player.ImageViewer"
+			android:configChanges="orientation|keyboardHidden"
+			android:theme="@android:style/Theme.NoTitleBar" >
 		</activity>
 
 		<service android:name=".activity.WireUpnpService" />
